@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --qos=normal
-#SBATCH --job-name=Ma0Na0
+#SBATCH --job-name=SQRM4N2
 #SBATCH --time=1-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
