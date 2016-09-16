@@ -12,21 +12,6 @@
 
 /** ================================================================================================================== */
 
-Eigen::MatrixXi MeritFunction::genBasisOut(std::vector<int>& outBasis){
-
-    Eigen::MatrixXi output(compSubspaceDim,modes);
-
-    Eigen::MatrixXi basisVector = generateBasisVector(photons,modes,1);
-
-    for(int i=0;i<compSubspaceDim;i++){
-
-        output.row(i) = basisVector.row(outBasis.at(i));
-
-    }
-
-    return output;
-
-}
 
 void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
 
@@ -44,12 +29,28 @@ void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
     computationalBasisIn.resize(compSubspaceDim,modes);
     computationalBasisOut.resize(compSubspaceDim,modes);
 
-    computationalBasisIn  << 0,1,0,1,
-                             0,1,1,0,
-                             1,0,1,0,
-                             1,0,0,1;
+    std::ifstream infile("InBasis.dat");
+
+    for(int i=0;i<compSubspaceDim;i++){
+
+        for(int j=0;j<modes;j++){
+
+            infile >> computationalBasisIn(i,j);
+
+        }
+
+    }
+
+    infile.close();
 
     computationalBasisOut = genBasisOut(outBasis);
+
+
+    std::ofstream outfile("BasisCheck.dat");
+    outfile << computationalBasisIn << std::endl;
+    outfile << "TO" << std::endl;
+    outfile << computationalBasisOut << std::endl << std::endl;
+    outfile.close();
 
     IdealOp.resize(compSubspaceDim,compSubspaceDim);
 
@@ -103,8 +104,14 @@ void MeritFunction::printReport(Eigen::VectorXd& position){
     if(fidelity > 1.0 - 1.0e-6){
 
         std::ofstream outfile("Successful Basis Change.dat",std::ofstream::app);
+        outfile << computationalBasisIn << std::endl << std::endl;
+        outfile << "TO" << std::endl << std::endl;
         outfile << computationalBasisOut << std::endl << std::endl;
         outfile.close();
+
+        std::ofstream outfile2("Successful Outbasis List.dat",std::ofstream::app);
+        outfile2 << computationalBasisOut << std::endl << std::endl;
+        outfile2.close();
 
         validBasis = true;
 
@@ -145,6 +152,23 @@ double MeritFunction::f(Eigen::VectorXd& position){
 /** ================================================================================================ */
 
     return - (fidelity + optimizationEpsilon * successProbability);
+
+}
+
+
+Eigen::MatrixXi MeritFunction::genBasisOut(std::vector<int>& outBasis){
+
+    Eigen::MatrixXi output(compSubspaceDim,modes);
+
+    Eigen::MatrixXi basisVector = generateBasisVector(photons,modes,1);
+
+    for(int i=0;i<compSubspaceDim;i++){
+
+        output.row(i) = basisVector.row(outBasis.at(i));
+
+    }
+
+    return output;
 
 }
 

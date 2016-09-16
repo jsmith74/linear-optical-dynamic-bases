@@ -1,38 +1,74 @@
 #include "BFGS_Optimization.h"
 #include "ChaseAlgorithm.h"
 #include <fstream>
+#include <stdlib.h>
+#include <string>
+#include <sstream>
+
+std::string command;
+
+void setInbasisCommand(int& lines){
+
+    std::stringstream ss;
+    ss << lines + 2;
+    ss >> command;
+
+    command = "tail InBasis.dat -n +" + command;
+
+    command = command + " > InBasisNew.dat && mv InBasisNew.dat InBasis.dat";
+
+    return;
+
+}
 
 int main(){
 
     remove("Successful Basis Change.dat");
 
-    remove("outbasisCheck.dat");
+    remove("Successful Outbasis List.dat");
 
-    ChaseAlgorithm NChooseKStates(10,4);
+    remove("BasisCheck.dat");
 
-    for(int i=0;i<5040;i++){
+    int compBasisDim = 4;
 
-        BFGS_Optimization optimizer(0.00001,2.0,0.0,NChooseKStates.subset);
+    setInbasisCommand(compBasisDim);
 
-        for(int j=0;j<40;j++){
+    while(true){
 
-            if(optimizer.meritFunction.validBasis == true) continue;
+        ChaseAlgorithm NChooseKStates(10,4);
 
-            optimizer.minimize();
+        for(int i=0;i<5040;i++){
 
+            BFGS_Optimization optimizer(0.00001,2.0,0.0,NChooseKStates.subset);
+
+            for(int j=0;j<40;j++){
+
+                if(optimizer.meritFunction.validBasis == true) continue;
+
+                optimizer.minimize();
+
+
+            }
+
+            NChooseKStates.iterate();
 
         }
 
-        std::ofstream outfile("outbasisCheck.dat",std::ofstream::app);
-        for(int j=0;j<4;j++) outfile << NChooseKStates.subset.at(j) << " ";
-        outfile << std::endl;
-        outfile.close();
+        compBasisDim = system(command.c_str());
 
-        NChooseKStates.iterate();
+        std::ifstream eofTest("InBasis.dat");
+        eofTest >> compBasisDim;
+        if(eofTest.eof() == true){
+
+            eofTest.close();
+            return 0;
+
+        }
+
+        eofTest.close();
 
     }
 
-
-    return 0;
+    return 1;
 
 }
