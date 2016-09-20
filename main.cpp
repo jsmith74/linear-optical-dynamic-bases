@@ -23,11 +23,11 @@ void setInbasisCommand(int& lines){
 
 int main(){
 
-    remove("Successful Basis Change.dat");
+    //remove("Successful Basis Change.dat");
 
-    remove("Successful Outbasis List.dat");
+    //remove("Successful Outbasis List.dat");
 
-    remove("BasisCheck.dat");
+    //remove("BasisCheck.dat");
 
     int compBasisDim = 4;
 
@@ -48,6 +48,7 @@ int main(){
                 optimizer.minimize();
 
             }
+
 
             NChooseKStates.iterate();
 

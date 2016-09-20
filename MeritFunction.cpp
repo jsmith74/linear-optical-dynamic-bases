@@ -45,6 +45,10 @@ void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
 
     computationalBasisOut = genBasisOut(outBasis);
 
+//    std::ofstream outfile1("BasisVectors.dat",std::ofstream::app);
+//    outfile1 << computationalBasisOut << std::endl << std::endl;
+//    outfile1.close();
+
 
     std::ofstream outfile("BasisCheck.dat");
     outfile << computationalBasisIn << std::endl;
@@ -60,7 +64,6 @@ void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
                     0.0,            0.520441 + 0.801184 * I, 0.0, -0.260429 + 0.139366*I,
                 0.123947 + 0.268111*I,      0.0,        0.898012 - 0.326081*I, 0.0,
                 0.0,0.123947 + 0.268111*I,      0.0,        0.898012 - 0.326081*I;
-
 
     MeasAssistOp1.setPUA(photons,modes,ancillaPhotons,ancillaModes,measModes,measOutcome);
 
@@ -97,11 +100,11 @@ void MeritFunction::printReport(Eigen::VectorXd& position){
 
     MeasAssistOp1.setQuantumOperator(position);
 
-    std::cout << std::endl << std::endl;
-    std::cout << "RESULT FIDELITY: \n" << fidelity << std::endl << std::endl;
+    //std::cout << std::endl << std::endl;
+    //std::cout << "RESULT FIDELITY: \n" << fidelity << std::endl << std::endl;
 
 
-    if(fidelity > 1.0 - 1.0e-6){
+    if(fidelity > 1.0 - 1.0e-1){
 
         std::ofstream outfile("Successful Basis Change.dat",std::ofstream::app);
         outfile << computationalBasisIn << std::endl << std::endl;

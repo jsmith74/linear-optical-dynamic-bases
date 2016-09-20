@@ -389,15 +389,15 @@ void BFGS_Optimization::printResultReport(){
 
     meritFunction.printReport(position);
 
-    if(zoomGuard) std::cout << "Warning: Zoom Guard Was Hit..." << std::endl  <<  std::endl;
+    //if(zoomGuard) std::cout << "Warning: Zoom Guard Was Hit..." << std::endl  <<  std::endl;
 
-    if(quadInterpolationFailure) std::cout << "Warning: Quadratic Interpolation Failure..." << std::endl << std::endl;
+    //if(quadInterpolationFailure) std::cout << "Warning: Quadratic Interpolation Failure..." << std::endl << std::endl;
 
-    if(wolfeConditionFailure) std::cout << "Wolfe Condition failure on a step (should be rare)..." << std::endl << std::endl;
+    //if(wolfeConditionFailure) std::cout << "Wolfe Condition failure on a step (should be rare)..." << std::endl << std::endl;
 
-    if(maxStepSize) std::cout << "BFGS took the maximum step size for at least one iteration..." << std::endl << std::endl;
+    //if(maxStepSize) std::cout << "BFGS took the maximum step size for at least one iteration..." << std::endl << std::endl;
 
-    if(maxIterationGuard) std::cout << "BFGS has taken the maximum number of steps imposed by the user..." << std::endl << std::endl;
+    //if(maxIterationGuard) std::cout << "BFGS has taken the maximum number of steps imposed by the user..." << std::endl << std::endl;
 
     return;
 
