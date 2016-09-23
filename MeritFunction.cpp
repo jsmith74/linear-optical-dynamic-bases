@@ -45,9 +45,9 @@ void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
 
     computationalBasisOut = genBasisOut(outBasis);
 
-//    std::ofstream outfile1("BasisVectors.dat",std::ofstream::app);
-//    outfile1 << computationalBasisOut << std::endl << std::endl;
-//    outfile1.close();
+    //std::ofstream outfile1("BasisVectors.dat",std::ofstream::app);
+    //outfile1 << computationalBasisOut << std::endl << std::endl;
+    //outfile1.close();
 
 
     std::ofstream outfile("BasisCheck.dat");
@@ -104,7 +104,7 @@ void MeritFunction::printReport(Eigen::VectorXd& position){
     //std::cout << "RESULT FIDELITY: \n" << fidelity << std::endl << std::endl;
 
 
-    if(fidelity > 1.0 - 1.0e-1){
+    if(fidelity > 1.0 - 1.0e-2){
 
         std::ofstream outfile("Successful Basis Change.dat",std::ofstream::app);
         outfile << computationalBasisIn << std::endl << std::endl;
