@@ -30,7 +30,7 @@
 
 /** ===== Seed Random Number Generator ============================= */
 
-#define SEED_RANDOM_NUMBER_GENERATOR
+//#define SEED_RANDOM_NUMBER_GENERATOR
 
 /** ================================================================ */
 
@@ -439,7 +439,7 @@ void BFGS_Optimization::setGradient(){
 
 }
 
-BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,double optEps,std::vector<int>& outBasis){
+BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,double optEps,std::vector<int>& inBasis,std::vector<int>& outBasis){
 
     #ifdef SEED_RANDOM_NUMBER_GENERATOR
 
@@ -463,7 +463,7 @@ BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,double 
 
     alphaMax = maxStepSize;
 
-    meritFunction.setMeritFunction(optEps,outBasis);
+    meritFunction.setMeritFunction(optEps,inBasis,outBasis);
 
     bestResult = 1e30;
 

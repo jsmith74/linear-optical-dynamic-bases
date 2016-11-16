@@ -13,10 +13,10 @@
 /** ================================================================================================================== */
 
 
-void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
+void MeritFunction::setMeritFunction(double optEps,std::vector<int>& inBasis,std::vector<int>& outBasis){
 
     photons = 2;
-    modes = 4;
+    modes = 5;
 
     ancillaPhotons = 0;
     ancillaModes = 0;
@@ -29,25 +29,10 @@ void MeritFunction::setMeritFunction(double optEps,std::vector<int>& outBasis){
     computationalBasisIn.resize(compSubspaceDim,modes);
     computationalBasisOut.resize(compSubspaceDim,modes);
 
-    std::ifstream infile("InBasis.dat");
 
-    for(int i=0;i<compSubspaceDim;i++){
-
-        for(int j=0;j<modes;j++){
-
-            infile >> computationalBasisIn(i,j);
-
-        }
-
-    }
-
-    infile.close();
+    computationalBasisIn = genBasisOut(inBasis);
 
     computationalBasisOut = genBasisOut(outBasis);
-
-    //std::ofstream outfile1("BasisVectors.dat",std::ofstream::app);
-    //outfile1 << computationalBasisOut << std::endl << std::endl;
-    //outfile1.close();
 
 
     std::ofstream outfile("BasisCheck.dat");

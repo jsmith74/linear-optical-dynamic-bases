@@ -5,67 +5,45 @@
 #include <string>
 #include <sstream>
 
-std::string command;
-
-void setInbasisCommand(int& lines){
-
-    std::stringstream ss;
-    ss << lines + 2;
-    ss >> command;
-
-    command = "tail InBasis.dat -n +" + command;
-
-    command = command + " > InBasisNew.dat && mv InBasisNew.dat InBasis.dat";
-
-    return;
-
-}
 
 int main(){
 
-    //remove("Successful Basis Change.dat");
+    std::cout << "RAND_MAX check: "  << RAND_MAX << std::endl << std::endl;
 
-    //remove("Successful Outbasis List.dat");
-
-    //remove("BasisCheck.dat");
-
-    int compBasisDim = 4;
-
-    setInbasisCommand(compBasisDim);
+    srand(611*time(NULL));
 
     while(true){
 
-        ChaseAlgorithm NChooseKStates(10,4);
+        int randomInBasisChoice = rand() % 32760 + 1;
 
-        for(int i=0;i<5040;i++){
+        int randomOutBasisChoice = rand() % 32760 + 1;
 
-            BFGS_Optimization optimizer(0.00001,2.0,0.0,NChooseKStates.subset);
+        ChaseAlgorithm NChooseKStatesIn(15,4);
 
-            for(int j=0;j<40;j++){
+        ChaseAlgorithm NChooseKStatesOut(15,4);
 
-                if(optimizer.meritFunction.validBasis == true) continue;
+        for(int r=0;r<randomInBasisChoice;r++){
 
-                optimizer.minimize();
-
-            }
-
-
-            NChooseKStates.iterate();
+            NChooseKStatesIn.iterate();
 
         }
 
-        compBasisDim = system(command.c_str());
+        for(int r=0;r<randomOutBasisChoice;r++){
 
-        std::ifstream eofTest("InBasis.dat");
-        eofTest >> compBasisDim;
-        if(eofTest.eof() == true){
-
-            eofTest.close();
-            return 0;
+            NChooseKStatesOut.iterate();
 
         }
 
-        eofTest.close();
+
+        BFGS_Optimization optimizer(0.00001,2.0,0.0,NChooseKStatesIn.subset,NChooseKStatesOut.subset);
+
+        for(int j=0;j<40;j++){
+
+            if(optimizer.meritFunction.validBasis == true) continue;
+
+            optimizer.minimize();
+
+        }
 
     }
 

@@ -8,7 +8,7 @@ class BFGS_Optimization{
 
     public:
 
-        BFGS_Optimization(double tolerance,double maxStepSize,double optEps,std::vector<int>& outBasis);
+        BFGS_Optimization(double tolerance,double maxStepSize,double optEps,std::vector<int>& inBasis,std::vector<int>& outBasis);
         double minimize();
         double bestResult;
         MeritFunction meritFunction;

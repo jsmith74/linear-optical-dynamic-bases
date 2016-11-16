@@ -13,7 +13,7 @@ class MeritFunction{
     public:
 
         MeritFunction();
-        void setMeritFunction(double optEps,std::vector<int>& outBasis);
+        void setMeritFunction(double optEps,std::vector<int>& inBasis,std::vector<int>& outBasis);
         double f(Eigen::VectorXd& position);
         int funcDimension;
         void printReport(Eigen::VectorXd& position);
